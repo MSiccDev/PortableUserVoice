@@ -44,8 +44,6 @@ namespace PortableUserVoice.Clients
             
             RestRequest request = new RestRequest("articles.json", HttpMethod.Get);
             request.AddHeader("If-Modified-Since", DateTime.Now.ToUniversalTime().ToString("R"));
-            
-
 
             request.AddParameter("page", page);
             request.AddParameter("per_page", per_page);

@@ -16,6 +16,10 @@
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <NuGetPackageImportStamp>0398d43f</NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +47,7 @@
     <Compile Include="Data\ForumsResult.cs" />
     <Compile Include="Data\KnowledgeBaseResult.cs" />
     <Compile Include="Data\KnowledgeBaseTopicsResult.cs" />
+    <Compile Include="Data\NewTicketMessage.cs" />
     <Compile Include="Data\NewTicketResult.cs" />
     <Compile Include="Data\OwnerResult.cs" />
     <Compile Include="Data\PostTicket.cs" />
@@ -52,6 +57,7 @@
     <Compile Include="Data\SuggestionsResult.cs" />
     <Compile Include="Data\SuggestionStatusesResult.cs" />
     <Compile Include="Data\TicketMessagesResult.cs" />
+    <Compile Include="Data\TicketWithCreatedMessagesResult.cs" />
     <Compile Include="Data\UserAsAdminResult.cs" />
     <Compile Include="Data\UserResult.cs" />
     <Compile Include="Data\UserTicketsResult.cs" />
@@ -59,6 +65,7 @@
     <Compile Include="Tokens\AppTokens.cs" />
     <Compile Include="Tokens\OwnerTokens.cs" />
     <Compile Include="Tokens\UserTokens.cs" />
+    <Compile Include="Utilities\HtmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

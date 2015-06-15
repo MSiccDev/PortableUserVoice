@@ -72,6 +72,7 @@ namespace PortableUserVoice.Auth
             return authUrl;
         }
 
+
         /// <summary>
         /// splits the RequestToken string for later user in access token request
         /// </summary>
@@ -142,7 +143,7 @@ namespace PortableUserVoice.Auth
         /// <param name="oAuthResponse">the returned oAuthResponse (after login)</param>
         /// <param name="callBackUrl">your callback url</param>
         /// <returns>the response for the AccessToken and AccessTokenSecret request</returns>
-        private static async Task<IRestResponse> AccessTokenResponse(string subdomain, string consumerKey, string consumerSecret, string authUrl, string oAuthResponse, string callbackUrl)
+        private static async Task<IRestResponse> AccessTokenResponse(string subdomain, string consumerKey, string consumerSecret, string authUrl, string oAuthResponse)
         {
             var splittedTokens = GetSplittedRequestTokens(authUrl);
             var verifier = GetoAuthVerifier(oAuthResponse);
@@ -166,11 +167,11 @@ namespace PortableUserVoice.Auth
         /// <param name="oAuthResponse">the returned oAuthResponse (after login)</param>
         /// <param name="callBackUrl">your callback url</param>
         /// <returns>the UserTokens object containing both access token and access token secret</returns>
-        public static async Task<UserTokens> GetAccessToken(string subdomain, string consumerKey, string consumerSecret, string authUrl, string oAuthResponse, string callbackUrl)
+        public static async Task<UserTokens> GetAccessToken(string subdomain, string consumerKey, string consumerSecret, string authUrl, string oAuthResponse)
         {
             UserTokens tokens = new UserTokens();
 
-            IRestResponse response = await AccessTokenResponse(subdomain, consumerKey, consumerSecret, authUrl, oAuthResponse, callbackUrl);
+            IRestResponse response = await AccessTokenResponse(subdomain, consumerKey, consumerSecret, authUrl, oAuthResponse);
 
             string responseContent = Encoding.UTF8.GetString(response.RawBytes, 0, response.RawBytes.Length);
 
@@ -222,7 +223,7 @@ namespace PortableUserVoice.Auth
         {
             bool value = false;
 
-            if (!String.IsNullOrEmpty(UserTokens.AccessToken) && !String.IsNullOrEmpty(UserTokens.AccessTokenSecret))
+            if (!string.IsNullOrEmpty(UserTokens.AccessToken) && !string.IsNullOrEmpty(UserTokens.AccessTokenSecret))
             {
                 value = true;
             }
@@ -234,6 +235,8 @@ namespace PortableUserVoice.Auth
             return value;
         }
         #endregion
+
+
 
         #region owner
 

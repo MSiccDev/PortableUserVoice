@@ -8,11 +8,13 @@ namespace PortableUserVoice.Tokens
 {
     public class AppTokens
     {
-        public static string ConsumerKey;
+        public static string ConsumerKey { get; set; }
 
-        public static string ConsumerSecret;
+        public static string ConsumerSecret { get; set; }
 
-        public static string CallbackUrl;
+        public static string CallbackUrl { get; set; }
+
+        public static string Subdomain { get; set; }
     }
 
 }

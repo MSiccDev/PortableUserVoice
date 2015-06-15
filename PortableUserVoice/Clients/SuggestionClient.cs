@@ -226,6 +226,8 @@ namespace PortableUserVoice.Clients
              _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 
              RestRequest request = new RestRequest("suggestions.json", HttpMethod.Post);
+             request.AddHeader("If-Modified-Since", DateTime.Now.ToUniversalTime().ToString("R"));
+
 
              request.AddParameter("suggestion[title]", title);
              request.AddParameter("suggestion[votes]", votes);
@@ -303,6 +305,8 @@ namespace PortableUserVoice.Clients
              _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 
              RestRequest request = new RestRequest("votes.json", HttpMethod.Post);
+             request.AddHeader("If-Modified-Since", DateTime.Now.ToUniversalTime().ToString("R"));
+
 
              request.AddParameter("to", votes);
 

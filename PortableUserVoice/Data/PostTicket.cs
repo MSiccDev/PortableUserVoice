@@ -23,8 +23,6 @@ namespace PortableUserVoice.Data
             [JsonProperty("message")]
             public string Message { get; set; }
 
-            [JsonProperty("state")]
-            public string State { get; set; }
 
             //todo: add attachments to tickets we are opening
 

@@ -49,7 +49,7 @@ namespace PortableUserVoice.Clients
             _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, OwnerTokens.AccessToken, OwnerTokens.AccessTokenSecret);
 
             RestRequest request = new RestRequest("search.json", HttpMethod.Get);
-            request.AddHeader("If-Modified-Since", DateTime.Now.ToUniversalTime().ToString("R"));
+            request.AddHeader("If-Modified-Since", DateTime.Now.Subtract(new TimeSpan(0,0,1,0)).ToUniversalTime().ToString("R"));
             
             request.AddParameter("query", userMailAddress);
             request.AddParameter("page", page);
@@ -146,6 +146,8 @@ namespace PortableUserVoice.Clients
         }
         #endregion
 
+
+
         #region create ticket
         /// <summary>
         /// the response for the new ticket request
@@ -159,12 +161,14 @@ namespace PortableUserVoice.Clients
         /// <param name="subject">the ticket subject</param>
         /// <param name="message">the ticket message</param>
         /// <returns>the server resopnse for the new ticket request</returns>
-        private async Task<IRestResponse> CreateNewTicketResponse(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, string email, string subject, string message, TicketStatus state = TicketStatus.open)
+        private async Task<IRestResponse> CreateNewTicketResponse(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, string email, string subject, string message)
         {
             _client.BaseUrl = new Uri(string.Format("https://{0}.uservoice.com/api/v1/", subdomain));
             _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 
             RestRequest request = new RestRequest("tickets.json", HttpMethod.Post);
+            request.AddHeader("If-Modified-Since", DateTime.Now.ToUniversalTime().ToString("R"));
+
 
             var ticket = new PostTicket
             {
@@ -173,8 +177,6 @@ namespace PortableUserVoice.Clients
                     UserMailAddress = email,
                     Subject = subject,
                     Message = message,
-                    State = state.ToString(),
-
                 }
             };
 
@@ -195,13 +197,13 @@ namespace PortableUserVoice.Clients
         /// <param name="subject">the ticket subject</param>
         /// <param name="message">the ticket message</param>
         /// <returns>the ticket creation date, ticket id and ticket number</returns>
-        public async Task<NewTicketResult> CreateNew(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, string email, string subject, string message, TicketStatus state = TicketStatus.open)
+        public async Task<NewTicketResult> CreateNew(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, string email, string subject, string message)
         {
             NewTicketResult newTicket = new NewTicketResult();
 
             if (AuthService.IsUserAuthenticated())
             {
-                IRestResponse response = await CreateNewTicketResponse(subdomain, consumerKey, consumerSecret, accessToken, accessTokenSecret, email, subject, message, state);
+                IRestResponse response = await CreateNewTicketResponse(subdomain, consumerKey, consumerSecret, accessToken, accessTokenSecret, email, subject, message);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -216,16 +218,84 @@ namespace PortableUserVoice.Clients
             }
             return newTicket;
         }
+
+
+
+        /// <summary>
+        /// the response for the new ticket request
+        /// </summary>
+        /// <param name="subdomain">the site's subdomain</param>
+        /// <param name="consumerKey">your consumerKey</param>
+        /// <param name="consumerSecret">your conumserSecret</param>
+        /// <param name="accessToken">the user's access token</param>
+        /// <param name="accessTokenSecret">the user's access token secret</param>
+        /// <param name="ticketId">the ticket id this message belongs to</param>
+        /// <param name="message">the ticket message</param>
+        /// <returns>the server resopnse for the new ticket message request</returns>
+        private async Task<IRestResponse> CreateNewTicketMessageResponse(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, int ticketId, string message)
+        {
+            _client.BaseUrl = new Uri(string.Format("https://{0}.uservoice.com/api/v1/tickets/{1}", subdomain, ticketId));
+            _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+
+            RestRequest request = new RestRequest("ticket_messages.json", HttpMethod.Post);
+            request.AddHeader("If-Modified-Since", DateTime.Now.ToUniversalTime().ToString("R"));
+
+            var newmsg = new NewTicketMessage
+            {
+                NewMessage = new NewTicketMessage.TicketMessage()
+                {
+                    MessageText = message
+                }
+            };
+
+            request.AddJsonBody(newmsg);
+            
+
+            return await _client.Execute(request);
+        }
+
+        /// <summary>
+        /// creates a new ticket for the currently authenticated user
+        /// </summary>
+        /// <param name="subdomain">the site's subdomain</param>
+        /// <param name="consumerKey">your consumerKey</param>
+        /// <param name="consumerSecret">your conumserSecret</param>
+        /// <param name="accessToken">the user's access token</param>
+        /// <param name="accessTokenSecret">the user's access token secret</param>
+        /// <param name="ticketId">the ticket id this message belongs to</param>
+        /// <param name="message">the ticket message</param>
+        /// <returns>the updated ticket</returns>
+        public async Task<TicketWithCreatedMessagesResult> CreateNewMessage(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, int ticketId, string message)
+        {
+            TicketWithCreatedMessagesResult newMessagesResult = new TicketWithCreatedMessagesResult();
+
+            if (AuthService.IsUserAuthenticated())
+            {
+                IRestResponse response = await CreateNewTicketMessageResponse(subdomain, consumerKey, consumerSecret, accessToken, accessTokenSecret, ticketId, message);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    string responseContent = Encoding.UTF8.GetString(response.RawBytes, 0, response.RawBytes.Length);
+
+                    newMessagesResult = JsonConvert.DeserializeObject<TicketWithCreatedMessagesResult>(responseContent);
+                }
+            }
+            else
+            {
+                throw new UnauthorizedAccessException("user needs to be authenticated first.");
+            }
+            return newMessagesResult;
+        }
+
+
+        
+        
+        
+        
         #endregion
 
 
-        public enum TicketStatus
-        {
-            [DefaultValue(true)]
-            open = 1,
-            closed = 2,
-            spam = 3
-        }
+
 
 
     }
