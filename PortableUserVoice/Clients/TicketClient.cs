@@ -26,6 +26,7 @@ namespace PortableUserVoice.Clients
         }
 
         #region get tickets and messages
+
         /// <summary>
         /// the response of the all user tickets request
         /// </summary>
@@ -35,10 +36,9 @@ namespace PortableUserVoice.Clients
         /// <param name="callbackUrl">ypur callback url</param>
         /// <param name="userMailAddress">the user's mail address</param>
         /// <param name="page">the page you want to show</param>
-        /// <param name="per_page">the number of entries per page</param>
-        /// <param name="status">the status of the tickets to fetch</param>
+        /// <param name="perPage">the number of entries per page</param>
         /// <returns>the response for the all user ticket request</returns>
-        private async Task<IRestResponse> GetAllUserTicketsResponse(string subdomain, string consumerKey, string consumerSecret, string callbackUrl, string userMailAddress, int page=1, int per_page = 10)
+        private async Task<IRestResponse> GetAllUserTicketsResponse(string subdomain, string consumerKey, string consumerSecret, string callbackUrl, string userMailAddress, int page=1, int perPage = 10)
         {
             if (!AuthService.IsOwnerAuthenticated())
             {
@@ -53,7 +53,7 @@ namespace PortableUserVoice.Clients
             
             request.AddParameter("query", userMailAddress);
             request.AddParameter("page", page);
-            request.AddParameter("per_page", per_page);
+            request.AddParameter("per_page", perPage);
 
             return await _client.Execute(request);
         }
@@ -68,11 +68,11 @@ namespace PortableUserVoice.Clients
         /// <param name="callbackUrl">ypur callback url</param>
         /// <param name="userMailAddress">the user's mail address</param>
         /// <param name="page">the page you want to show</param>
-        /// <param name="status">the status of the tickets to fetch</param>
+        /// <param name="perPage">the number of entries per page</param>
         /// <returns>List of all tickets for the specified user</returns>
-        public async Task<UserTicketsResult> GetAllUserTickets(string subdomain, string consumerKey, string consumerSecret, string callbackUrl, string userMailAddress, int page = 1, int per_page = 10)
+        public async Task<UserTicketsResult> GetAllUserTickets(string subdomain, string consumerKey, string consumerSecret, string callbackUrl, string userMailAddress, int page = 1, int perPage = 10)
         {
-            IRestResponse response = await GetAllUserTicketsResponse(subdomain, consumerKey, consumerSecret, callbackUrl, userMailAddress, page, per_page);
+            IRestResponse response = await GetAllUserTicketsResponse(subdomain, consumerKey, consumerSecret, callbackUrl, userMailAddress, page, perPage);
 
             UserTicketsResult result = new UserTicketsResult();
 
@@ -97,10 +97,9 @@ namespace PortableUserVoice.Clients
         /// <param name="callbackUrl">ypur callback url</param>
         /// <param name="ticketId">the id of the requested ticket messages</param>
         /// <param name="page">the page you want to show</param>
-        /// <param name="per_page">the number of entries per page</param>
-        /// <param name="subdomain"></param>
+        /// <param name="perPage">the number of entries per page</param>
         /// <returns>the response for the request of a ticket's messages</returns>
-        private async Task<IRestResponse> GetTicketMessagesResponse(string subdomain, int ticketId, string consumerKey, string consumerSecret, string callbackUrl, int page = 1, int per_page = 10)
+        private async Task<IRestResponse> GetTicketMessagesResponse(string subdomain, int ticketId, string consumerKey, string consumerSecret, string callbackUrl, int page = 1, int perPage = 10)
         {
             if (!AuthService.IsOwnerAuthenticated())
             {
@@ -114,7 +113,7 @@ namespace PortableUserVoice.Clients
             request.AddHeader("If-Modified-Since", DateTime.Now.ToUniversalTime().ToString("R"));
 
             request.AddParameter("page", page);
-            request.AddParameter("per_page", per_page);
+            request.AddParameter("per_page", perPage);
 
             return await _client.Execute(request);
         }
@@ -128,11 +127,11 @@ namespace PortableUserVoice.Clients
         /// <param name="callbackUrl">ypur callback url</param>
         /// <param name="ticketId">the id of the requested ticket messages</param>
         /// <param name="page">the page you want to show</param>
-        /// <param name="per_page">the number of entries per page</param>
+        /// <param name="perPage">the number of entries per page</param>
         /// <returns>the messages of a ticket</returns>
-        public async Task<TicketMessagesResult> GetTicketMessages(string subdomain, int ticketId, string consumerKey, string consumerSecret, string callbackUrl, int page = 1, int per_page = 10)
+        public async Task<TicketMessagesResult> GetTicketMessages(string subdomain, int ticketId, string consumerKey, string consumerSecret, string callbackUrl, int page = 1, int perPage = 10)
         {
-            IRestResponse response = await GetTicketMessagesResponse(subdomain, ticketId, consumerKey, consumerSecret, callbackUrl, page, per_page);
+            IRestResponse response = await GetTicketMessagesResponse(subdomain, ticketId, consumerKey, consumerSecret, callbackUrl, page, perPage);
 
             TicketMessagesResult result = new TicketMessagesResult();
 

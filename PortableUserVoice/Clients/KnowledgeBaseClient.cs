@@ -27,17 +27,19 @@ namespace PortableUserVoice.Clients
         }
 
         #region allKB
+
         /// <summary>
         /// the response for the all KB request
         /// </summary>
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
+        /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <param name="filter">how the request response should be filtered</param>
         /// <param name="sort">the order in which the response should be sorted</param>
         /// <returns>IRestResponse containing the requested data</returns>
-        private async Task<IRestResponse> GetAllArticlesResponse(string subdomain, string consumerKey, string consumerSecret, int page = 1, int per_page = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
+        private async Task<IRestResponse> GetAllArticlesResponse(string subdomain, string consumerKey, string consumerSecret, int page = 1, int perPage = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
         {
             _client.BaseUrl = new Uri(string.Format("https://{0}.uservoice.com/api/v1/", subdomain));
             _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, null, null);
@@ -46,7 +48,7 @@ namespace PortableUserVoice.Clients
             request.AddHeader("If-Modified-Since", DateTime.Now.ToUniversalTime().ToString("R"));
 
             request.AddParameter("page", page);
-            request.AddParameter("per_page", per_page);
+            request.AddParameter("per_page", perPage);
             request.AddParameter("filter", filter);
             request.AddParameter("sort", sort);
 
@@ -58,16 +60,17 @@ namespace PortableUserVoice.Clients
         /// </summary>
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
+        /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <param name="filter">how the request response should be filtered</param>
         /// <param name="sort">the order in which the response should be sorted</param>
         /// <returns>data to be filled in the KnowledgeBase model</returns>
-        public async Task<KnowledgeBaseResult> GetAllArticles(string subdomain, string consumerKey, string consumerSecret, int page= 1, int per_page = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
+        public async Task<KnowledgeBaseResult> GetAllArticles(string subdomain, string consumerKey, string consumerSecret, int page= 1, int perPage = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
         {
             KnowledgeBaseResult allKB = new KnowledgeBaseResult();
 
-            IRestResponse response = await GetAllArticlesResponse(subdomain, consumerKey, consumerSecret, page, per_page, filter, sort);
+            IRestResponse response = await GetAllArticlesResponse(subdomain, consumerKey, consumerSecret, page, perPage, filter, sort);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -85,12 +88,14 @@ namespace PortableUserVoice.Clients
         /// </summary>
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
+        /// <param name="consumerSecret">your consumer secret</param>
+        /// <param name="query">your search query</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <param name="filter">how the request response should be filtered</param>
         /// <param name="sort">the order in which the response should be sorted</param>
         /// <returns>IRestResponse containing the requested data</returns>
-        private async Task<IRestResponse> SearchAllArticlesResponse(string subdomain, string consumerKey, string consumerSecret, string query, int page = 1, int per_page = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
+        private async Task<IRestResponse> SearchAllArticlesResponse(string subdomain, string consumerKey, string consumerSecret, string query, int page = 1, int perPage = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
         {
             _client.BaseUrl = new Uri(string.Format("https://{0}.uservoice.com/api/v1/", subdomain));
             _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, null, null);
@@ -101,7 +106,7 @@ namespace PortableUserVoice.Clients
 
             request.AddParameter("page", page);
             request.AddParameter("query", query);
-            request.AddParameter("per_page", per_page);
+            request.AddParameter("per_page", perPage);
             request.AddParameter("filter", filter);
             request.AddParameter("sort", sort);
 
@@ -113,16 +118,18 @@ namespace PortableUserVoice.Clients
         /// </summary>
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
+        /// <param name="consumerSecret">your consumer secret</param>
+        /// <param name="query">your search query</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <param name="filter">how the request response should be filtered</param>
         /// <param name="sort">the order in which the response should be sorted</param>
         /// <returns>data to be filled in the KnowledgeBase model when KnowledgeBase is searched</returns>
-        public async Task<KnowledgeBaseResult> SearchAllArticles(string subdomain, string consumerKey, string consumerSecret, string query, int page = 1, int per_page = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
+        public async Task<KnowledgeBaseResult> SearchAllArticles(string subdomain, string consumerKey, string consumerSecret, string query, int page = 1, int perPage = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
         {
             KnowledgeBaseResult allKB = new KnowledgeBaseResult();
 
-            IRestResponse response = await SearchAllArticlesResponse(subdomain, consumerKey, consumerSecret, query, page, per_page, filter, sort);
+            IRestResponse response = await SearchAllArticlesResponse(subdomain, consumerKey, consumerSecret, query, page, perPage, filter, sort);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -141,13 +148,14 @@ namespace PortableUserVoice.Clients
         /// </summary>
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
+        /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="topicId">the requested topic's id</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <param name="filter">how the request response should be filtered</param>
         /// <param name="sort">the order in which the response should be sorted</param>
         /// <returns>IRestResponse containing the requested data</returns>
-        private async Task<IRestResponse> GetTopicArticlesResponse(string subdomain, string consumerKey, string consumerSecret, int topicId, int page = 1, int per_page = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
+        private async Task<IRestResponse> GetTopicArticlesResponse(string subdomain, string consumerKey, string consumerSecret, int topicId, int page = 1, int perPage = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
         {
             _client.BaseUrl = new Uri(string.Format("https://{0}.uservoice.com/api/v1/", subdomain));
             _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, null, null);
@@ -157,7 +165,7 @@ namespace PortableUserVoice.Clients
 
 
             request.AddParameter("page", page);
-            request.AddParameter("per_page", per_page);
+            request.AddParameter("per_page", perPage);
             request.AddParameter("filter", filter);
             request.AddParameter("sort", sort);
 
@@ -169,17 +177,18 @@ namespace PortableUserVoice.Clients
         /// </summary>
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
+        /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="topicId">the requested topic's id</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <param name="filter">how the request response should be filtered</param>
         /// <param name="sort">the order in which the response should be sorted</param>
         /// <returns>data to be filled in the KnowledgeBase model based on the specified topicId</returns>
-        public async Task<KnowledgeBaseResult> GetTopic(string subdomain, string consumerKey, string consumerSecret, int topicId, int page = 1, int per_page = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
+        public async Task<KnowledgeBaseResult> GetTopic(string subdomain, string consumerKey, string consumerSecret, int topicId, int page = 1, int perPage = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
         {
             KnowledgeBaseResult allKB = new KnowledgeBaseResult();
 
-            IRestResponse response = await GetTopicArticlesResponse(subdomain, consumerKey, consumerSecret, topicId, page, per_page, filter, sort);
+            IRestResponse response = await GetTopicArticlesResponse(subdomain, consumerKey, consumerSecret, topicId, page, perPage, filter, sort);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -196,13 +205,15 @@ namespace PortableUserVoice.Clients
         /// </summary>
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
+        /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="topicId">the requested topic's id</param>
+        /// <param name="query">the search query</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <param name="filter">how the request response should be filtered</param>
         /// <param name="sort">the order in which the response should be sorted</param>
         /// <returns>IRestResponse containing the requested data</returns>
-        private async Task<IRestResponse> SearchTopicArticlesResponse(string subdomain, string consumerKey, string consumerSecret, int topicId, string query, int page = 1, int per_page = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
+        private async Task<IRestResponse> SearchTopicArticlesResponse(string subdomain, string consumerKey, string consumerSecret, int topicId, string query, int page = 1, int perPage = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
         {
             _client.BaseUrl = new Uri(string.Format("https://{0}.uservoice.com/api/v1/", subdomain));
             _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, null, null);
@@ -213,7 +224,7 @@ namespace PortableUserVoice.Clients
             
             request.AddParameter("page", page);
             request.AddParameter("query", query);
-            request.AddParameter("per_page", per_page);
+            request.AddParameter("per_page", perPage);
             request.AddParameter("filter", filter);
             request.AddParameter("sort", sort);
 
@@ -225,17 +236,19 @@ namespace PortableUserVoice.Clients
         /// </summary>
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
+        /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="topicId">the requested topic's id</param>
+        /// <param name="query">the search query</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <param name="filter">how the request response should be filtered</param>
         /// <param name="sort">the order in which the response should be sorted</param>
         /// <returns>data to be filled in the KnowledgeBase model based on the specified topicId and search query</returns>
-        public async Task<KnowledgeBaseResult> SearchTopic(string subdomain, string consumerKey, string consumerSecret, int topicId, string query, int page = 1, int per_page = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
+        public async Task<KnowledgeBaseResult> SearchTopic(string subdomain, string consumerKey, string consumerSecret, int topicId, string query, int page = 1, int perPage = 10, ArticlesFilter filter = ArticlesFilter.all, ArticlesSort sort = ArticlesSort.newest)
         {
             KnowledgeBaseResult allKB = new KnowledgeBaseResult();
 
-            IRestResponse response = await SearchTopicArticlesResponse(subdomain, consumerKey, consumerSecret, topicId, query, page, per_page, filter, sort);
+            IRestResponse response = await SearchTopicArticlesResponse(subdomain, consumerKey, consumerSecret, topicId, query, page, perPage, filter, sort);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -294,17 +307,16 @@ namespace PortableUserVoice.Clients
 
         #endregion
 
-
-
         /// <summary>
         /// the response for the all KB topics request
         /// </summary>
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
+        /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <returns>IRestResponse containing the requested data</returns>
-        private async Task<IRestResponse> GetAllTopicsResponse(string subdomain, string consumerKey, string consumerSecret, int page = 1, int per_page = 10)
+        private async Task<IRestResponse> GetAllTopicsResponse(string subdomain, string consumerKey, string consumerSecret, int page = 1, int perPage = 10)
         {
             _client.BaseUrl = new Uri(string.Format("https://{0}.uservoice.com/api/v1/", subdomain));
             _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, null, null);
@@ -314,7 +326,7 @@ namespace PortableUserVoice.Clients
             
 
             request.AddParameter("page", page);
-            request.AddParameter("per_page", per_page);
+            request.AddParameter("per_page", perPage);
 
             return await _client.Execute(request);
         }
@@ -326,13 +338,13 @@ namespace PortableUserVoice.Clients
         /// <param name="consumerKey">your consumer key</param>
         /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="page">the page number</param>
-        /// <param name="per_page">the number of articles per page</param>
+        /// <param name="perPage">the number of articles per page</param>
         /// <returns>data to be filled in the KnowledgeBase topics model</returns>
-        public async Task<KnowledgeBaseTopicsResult> GetAllTopics(string subdomain, string consumerKey, string consumerSecret, int page = 1, int per_page = 10)
+        public async Task<KnowledgeBaseTopicsResult> GetAllTopics(string subdomain, string consumerKey, string consumerSecret, int page = 1, int perPage = 10)
         {
             KnowledgeBaseTopicsResult allKbTopics = new KnowledgeBaseTopicsResult();
 
-            IRestResponse response = await GetAllTopicsResponse(subdomain, consumerKey, consumerSecret, page, per_page);
+            IRestResponse response = await GetAllTopicsResponse(subdomain, consumerKey, consumerSecret, page, perPage);
 
             if (response.IsSuccess)
             {

@@ -76,7 +76,7 @@ namespace PortableUserVoice.Auth
         /// <summary>
         /// splits the RequestToken string for later user in access token request
         /// </summary>
-        /// <param name="requestTokenString"></param>
+        /// <param name="authUrl">splits the authUrl response into request token and its secret</param>
         /// <returns>array of tokens</returns>
         private static string[] GetSplittedRequestTokens(string authUrl)
         {
@@ -111,7 +111,7 @@ namespace PortableUserVoice.Auth
         /// <summary>
         /// splits the returned oAuthResponse into tokens
         /// </summary>
-        /// <param name="oAuthResponse"></param>
+        /// <param name="oAuthResponse">the returned oAuth response, which should contain access token and access token secret</param>
         /// <returns>array with all token values</returns>
         private static string GetoAuthVerifier(string oAuthResponse)
         {
@@ -141,7 +141,6 @@ namespace PortableUserVoice.Auth
         /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="authUrl">the result of the GetAuthenticationUrl() request</param>
         /// <param name="oAuthResponse">the returned oAuthResponse (after login)</param>
-        /// <param name="callBackUrl">your callback url</param>
         /// <returns>the response for the AccessToken and AccessTokenSecret request</returns>
         private static async Task<IRestResponse> AccessTokenResponse(string subdomain, string consumerKey, string consumerSecret, string authUrl, string oAuthResponse)
         {
@@ -165,7 +164,6 @@ namespace PortableUserVoice.Auth
         /// <param name="consumerSecret">your consumer secret</param>
         /// <param name="authUrl">the result of the GetAuthenticationUrl() request</param>
         /// <param name="oAuthResponse">the returned oAuthResponse (after login)</param>
-        /// <param name="callBackUrl">your callback url</param>
         /// <returns>the UserTokens object containing both access token and access token secret</returns>
         public static async Task<UserTokens> GetAccessToken(string subdomain, string consumerKey, string consumerSecret, string authUrl, string oAuthResponse)
         {
@@ -246,7 +244,7 @@ namespace PortableUserVoice.Auth
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
         /// <param name="consumerSecret">your consumer secret</param>
-        /// <param name="callBackUrl">your callback url</param>
+        /// <param name="callbackUrl">your callback url</param>
         /// <returns>response for the request to log in as owner of the uservoice site</returns>
         private static async Task<IRestResponse> LoginAsOwnerResponse(string subdomain, string consumerKey, string consumerSecret, string callbackUrl)
         {
@@ -265,7 +263,7 @@ namespace PortableUserVoice.Auth
         /// <param name="subdomain">the site's subdomain</param>
         /// <param name="consumerKey">your consumer key</param>
         /// <param name="consumerSecret">your consumer secret</param>
-        /// <param name="callBackUrl">your callback url</param>
+        /// <param name="callbackUrl">your callback url</param>
         /// <returns>the owner result. owner tokens will be written to the OwnerTokens class</returns>
         public static async Task<OwnerResult> LoginAsOwner(string subdomain, string consumerKey, string consumerSecret, string callbackUrl)
         {

@@ -22,6 +22,13 @@ namespace PortableUserVoice.Clients
              
          }
 
+         /// <summary>
+         /// Gets a list of all forums for a UserVoice account
+         /// </summary>
+         /// <param name="subdomain">the site's subdomain</param>
+         /// <param name="consumerKey">your consumer key</param>
+         /// <param name="consumerSecret">your consumer secret</param>
+         /// <returns>IRestResponse for all forums of a Uservoice account</returns>
          private async Task<IRestResponse> GetAllForumsResponse(string subdomain, string consumerKey, string consumerSecret)
          {
              _client = new RestClient(string.Format("https://{0}.uservoice.com/api/v1/", subdomain));
@@ -33,6 +40,14 @@ namespace PortableUserVoice.Clients
              return await _client.Execute(request);
          }
 
+
+         /// <summary>
+         /// Gets a list of all forums for a UserVoice account
+         /// </summary>
+         /// <param name="subdomain">the site's subdomain</param>
+         /// <param name="consumerKey">your consumer key</param>
+         /// <param name="consumerSecret">your consumer secret</param>
+         /// <returns>all forums of a Uservoice account</returns>
          public async Task<ForumsResult> GetAllForums(string subdomain, string consumerKey, string consumerSecret)
          {
              ForumsResult result = new ForumsResult();
@@ -49,7 +64,13 @@ namespace PortableUserVoice.Clients
          }
 
 
-
+         /// <summary>
+         /// Gets all suggestions statuses
+         /// </summary>
+         /// <param name="subdomain">the site's subdomain</param>
+         /// <param name="consumerKey">your consumer key</param>
+         /// <param name="consumerSecret">your consumer secret</param>
+         /// <returns>IRestResponse for all suggestions statuses of a Uservoice account</returns>
          private async Task<IRestResponse> GetSuggestionStatusesResponse(string subdomain, string consumerKey, string consumerSecret)
          {
              _client = new RestClient(string.Format("https://{0}.uservoice.com/api/v1/", subdomain));
@@ -61,6 +82,13 @@ namespace PortableUserVoice.Clients
              return await _client.Execute(request);
          }
 
+         /// <summary>
+         /// Gets all suggestions statuses
+         /// </summary>
+         /// <param name="subdomain">the site's subdomain</param>
+         /// <param name="consumerKey">your consumer key</param>
+         /// <param name="consumerSecret">your consumer secret</param>
+         /// <returns> all suggestions statuses of a Uservoice account</returns>
          public async Task<SuggestionStatusesResult> GetSuggestionsStatuses(string subdomain, string consumerKey, string consumerSecret)
          {
              SuggestionStatusesResult result = new SuggestionStatusesResult();
@@ -89,10 +117,10 @@ namespace PortableUserVoice.Clients
          /// <param name="consumerKey">your conusmer key</param>
          /// <param name="consumerSecret">your consumer secret</param>
          /// <param name="page">the result's page</param>
-         /// <param name="per_page">number of entries per page</param>
+         /// <param name="perPage">number of entries per page</param>
          /// <param name="sort">the status used to order results</param>
          /// <returns>the response for the request of all suggestions in a forum</returns>
-         private async Task<IRestResponse> GetAllSuggestionsResponse(string subdomain, string consumerKey, string consumerSecret, int forumId, int page = 1, int per_page = 10, SuggestionSort sort = SuggestionSort.newest, SuggestionFilter filter = SuggestionFilter.all, SuggestionStatusesResult.Status status = null)
+         private async Task<IRestResponse> GetAllSuggestionsResponse(string subdomain, string consumerKey, string consumerSecret, int forumId, int page = 1, int perPage = 10, SuggestionSort sort = SuggestionSort.newest, SuggestionFilter filter = SuggestionFilter.all, SuggestionStatusesResult.Status status = null)
          {
              _client = new RestClient(string.Format("https://{0}.uservoice.com/api/v1/forums/{1}/", subdomain, forumId));
              _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, null, null);
@@ -108,7 +136,7 @@ namespace PortableUserVoice.Clients
                  request.AddParameter("status_id", status.id);
              }
              request.AddParameter("page", page);
-             request.AddParameter("per_page", per_page);
+             request.AddParameter("per_page", perPage);
              
 
              return await _client.Execute(request);
@@ -122,14 +150,14 @@ namespace PortableUserVoice.Clients
          /// <param name="consumerKey">your conusmer key</param>
          /// <param name="consumerSecret">your consumer secret</param>
          /// <param name="page">the result's page</param>
-         /// <param name="per_page">number of entries per page</param>
+         /// <param name="perPage">number of entries per page</param>
          /// <param name="sort">the status used to order results</param>
          /// <returns>all suggestions in a forum</returns>
-         public async Task<SuggestionsResult> GetAllSuggesstions(string subdomain, string consumerKey, string consumerSecret, int forumId, int page = 1, int per_page = 10, SuggestionSort sort = SuggestionSort.newest, SuggestionFilter filter = SuggestionFilter.all, SuggestionStatusesResult.Status status = null)
+         public async Task<SuggestionsResult> GetAllSuggesstions(string subdomain, string consumerKey, string consumerSecret, int forumId, int page = 1, int perPage = 10, SuggestionSort sort = SuggestionSort.newest, SuggestionFilter filter = SuggestionFilter.all, SuggestionStatusesResult.Status status = null)
          {
              SuggestionsResult result = new SuggestionsResult();
 
-             IRestResponse response = await GetAllSuggestionsResponse(subdomain, consumerKey, consumerSecret, forumId, page, per_page, sort, filter, status);
+             IRestResponse response = await GetAllSuggestionsResponse(subdomain, consumerKey, consumerSecret, forumId, page, perPage, sort, filter, status);
 
              if (response.StatusCode == HttpStatusCode.OK)
              {
@@ -152,10 +180,10 @@ namespace PortableUserVoice.Clients
          /// <param name="consumerKey">your conusmer key</param>
          /// <param name="consumerSecret">your consumer secret</param>
          /// <param name="page">the result's page</param>
-         /// <param name="per_page">number of entries per page</param>
+         /// <param name="perPage">number of entries per page</param>
          /// <param name="sort">the status used to order results</param>
          /// <returns>the response for the search request of all suggestions in a forum</returns>
-         private async Task<IRestResponse> GetSearchSuggestionsResponse(string subdomain, string query, string consumerKey, string consumerSecret, int forumId, int page = 1, int per_page = 10, SuggestionSort sort = SuggestionSort.newest, SuggestionStatusesResult.Status status = null)
+         private async Task<IRestResponse> GetSearchSuggestionsResponse(string subdomain, string query, string consumerKey, string consumerSecret, int forumId, int page = 1, int perPage = 10, SuggestionSort sort = SuggestionSort.newest, SuggestionStatusesResult.Status status = null)
          {
              _client = new RestClient(string.Format("https://{0}.uservoice.com/api/v1/forums/{1}/suggestions/", subdomain, forumId));
              _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, null, null);
@@ -171,7 +199,7 @@ namespace PortableUserVoice.Clients
                  request.AddParameter("status_id", status.id);
              }
              request.AddParameter("page", page);
-             request.AddParameter("per_page", per_page);
+             request.AddParameter("per_page", perPage);
 
              return await _client.Execute(request);
          }
@@ -185,13 +213,14 @@ namespace PortableUserVoice.Clients
          /// <param name="consumerKey">your conusmer key</param>
          /// <param name="consumerSecret">your consumer secret</param>
          /// <param name="page">the result's page</param>
+         /// <param name="perPage">number of entries per page</param>
          /// <param name="sort">the status used to order results</param>         
          /// <returns>all suggestions that match the search query in a forum</returns>
-         public async Task<SuggestionsResult> SearchSuggesstions(string subdomain, string query, string consumerKey, string consumerSecret, int forumId, int page = 1, int per_page = 10, SuggestionSort sort = SuggestionSort.newest, SuggestionStatusesResult.Status status = null)
+         public async Task<SuggestionsResult> SearchSuggesstions(string subdomain, string query, string consumerKey, string consumerSecret, int forumId, int page = 1, int perPage = 10, SuggestionSort sort = SuggestionSort.newest, SuggestionStatusesResult.Status status = null)
          {
              SuggestionsResult result = new SuggestionsResult();
 
-             IRestResponse response = await GetSearchSuggestionsResponse(subdomain, query, consumerKey, consumerSecret, forumId, page, per_page, sort, status);
+             IRestResponse response = await GetSearchSuggestionsResponse(subdomain, query, consumerKey, consumerSecret, forumId, page, perPage, sort, status);
 
              if (response.StatusCode == HttpStatusCode.OK)
              {
@@ -364,9 +393,9 @@ namespace PortableUserVoice.Clients
          /// <param name="accessTokenSecret">the user's access token secret</param>
          /// <param name="suggestionId">the suggestion's id</param>
          /// <param name="page">the result's page</param>
-         /// <param name="per_page">number of entries per page</param>
+         /// <param name="perPage">number of entries per page</param>
          /// <returns>the response for the request to get all comments of a suggestion</returns>
-         private async Task<IRestResponse> GetCommentsForSuggestionResponse(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, int forumId, int suggestionId, int page = 1, int per_page = 10)
+         private async Task<IRestResponse> GetCommentsForSuggestionResponse(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, int forumId, int suggestionId, int page = 1, int perPage = 10)
          {
              _client = new RestClient(string.Format("https://{0}.uservoice.com/api/v1/forums/{1}/suggestions/{2}/", subdomain, forumId, suggestionId));
              _client.Authenticator = OAuth1Authenticator.ForProtectedResource(consumerKey, consumerSecret, accessToken, accessTokenSecret);
@@ -376,7 +405,7 @@ namespace PortableUserVoice.Clients
 
 
              request.AddParameter("page", page);
-             request.AddParameter("per_page", per_page);
+             request.AddParameter("per_page", perPage);
 
              return await _client.Execute(request);
          }
@@ -392,15 +421,15 @@ namespace PortableUserVoice.Clients
          /// <param name="accessTokenSecret">the user's access token secret</param>
          /// <param name="suggestionId">the suggestion's id</param>
          /// <param name="page">the result's page</param>
-         /// <param name="per_page">number of entries per page</param>
+         /// <param name="perPage">number of entries per page</param>
          /// <returns>List with all comments of a suggestion </returns>
-         public async Task<SuggestionCommentsResult> GetCommentsForSuggestion(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, int forumId, int suggestionId, int page = 1, int per_page = 10)
+         public async Task<SuggestionCommentsResult> GetCommentsForSuggestion(string subdomain, string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, int forumId, int suggestionId, int page = 1, int perPage = 10)
          {
              SuggestionCommentsResult result = new SuggestionCommentsResult();
 
              if (AuthService.IsUserAuthenticated() || AuthService.IsOwnerAuthenticated())
              {
-                 IRestResponse response = await GetCommentsForSuggestionResponse(subdomain, consumerKey, consumerSecret, accessToken, accessTokenSecret, forumId, suggestionId, page, per_page);
+                 IRestResponse response = await GetCommentsForSuggestionResponse(subdomain, consumerKey, consumerSecret, accessToken, accessTokenSecret, forumId, suggestionId, page, perPage);
 
                  if (response.StatusCode == HttpStatusCode.OK)
                  {
@@ -480,6 +509,10 @@ namespace PortableUserVoice.Clients
 #endregion
 
 
+
+         /// <summary>
+         /// all possible suggestion sorting options
+         /// </summary>
          public enum SuggestionSort
          {
              votes =1,
@@ -489,6 +522,9 @@ namespace PortableUserVoice.Clients
              supporters = 5
          }
 
+         /// <summary>
+         /// all possible suggestion filters
+         /// </summary>
          public enum SuggestionFilter
          {
              all = 1,

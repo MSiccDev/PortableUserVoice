@@ -8,8 +8,16 @@ using System.Threading.Tasks;
 
 namespace PortableUserVoice.Utilities
 {
+    /// <summary>
+    /// *BETA* experimental html helper to enable html formatting in our library *BETA*
+    /// </summary>
     public class HtmlHelper
     {
+        /// <summary>
+        /// decode a string
+        /// </summary>
+        /// <param name="text">input string</param>
+        /// <returns>decoded plain text string</returns>
         public static string DecodeHtmlToStringElements(string text)
         {
 
@@ -66,6 +74,11 @@ namespace PortableUserVoice.Utilities
             }
         }
 
+        /// <summary>
+        /// decode html lists to string elements
+        /// </summary>
+        /// <param name="text">input string</param>
+        /// <returns>decoded plain text string</returns>
         public static string DecodeListingsToStringElements(string text)
         {
             var result = text;
@@ -89,7 +102,11 @@ namespace PortableUserVoice.Utilities
         }
 
 
-
+        /// <summary>
+        /// decode html numerations
+        /// </summary>
+        /// <param name="text">input string</param>
+        /// <returns>decoded plain text string</returns>
         public static string DecodeNumerationsToStringElements(string text)
         {
             var result = text;
@@ -113,6 +130,11 @@ namespace PortableUserVoice.Utilities
         }
 
 
+        /// <summary>
+        /// encode string to html
+        /// </summary>
+        /// <param name="text">input string</param>
+        /// <returns>encoded html string</returns>
         public static string EncodeStringElementsToHtml(string text)
         {
             var result = "<p>" + text + "\r\n\r\n";
@@ -134,6 +156,11 @@ namespace PortableUserVoice.Utilities
             return result;
         }
 
+        /// <summary>
+        /// encode lists to hmtl
+        /// </summary>
+        /// <param name="text">input string</param>
+        /// <returns>encoded html string</returns>
         private static string EncodeListingsToHtml(string text)
         {
             string result = text;
@@ -167,6 +194,11 @@ namespace PortableUserVoice.Utilities
             return sortedLeftLineBreaksAfterListConversion.Aggregate(result, (current, match) => Regex.Replace(current, "\r\n<li>", "<li>"));
         }
 
+        /// <summary>
+        /// encode numerations to html
+        /// </summary>
+        /// <param name="text">input string</param>
+        /// <returns>encoded html string</returns>
         private static string EncodeNumerationsToHmtl(string text)
         {
             string result = text;
