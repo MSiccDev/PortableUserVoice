@@ -38,9 +38,9 @@ await AuthService.GetAccessToken(AppTokens.Subdomain, AppTokens.ConsumerKey, App
 
 This requests fills in the UserTokens.AccessToken and UserTokens.AccessTokenSecret. You just need to save them.
 
-AuthService provides also the ```csharp IsUserAuthenticated() ``` method, which lets you check if you have saved the tokens already whenever you need an authenticated API call (like on SuggestionsClient or the UserClient methods).
+AuthService provides also the ``` IsUserAuthenticated() ``` method, which lets you check if you have saved the tokens already whenever you need an authenticated API call (like on SuggestionsClient or the UserClient methods).
 
-The usage of the ```csharp LoginAsOwner() ``` method is quite similiar, except that you don't need the authentication step as you'll get the OwnerTokens directly from the UserVoice API. OwnerTokens are used for the TicketClient. The TicketClient is aware of this and calls the ```csharp IsOwnerAuthenticated() ``` method, and logs you in if needed (you should save the OwnerTokens as well to avoid unneccesary API calls).
+The usage of the ``` LoginAsOwner() ``` method is quite similiar, except that you don't need the authentication step as you'll get the OwnerTokens directly from the UserVoice API. OwnerTokens are used for the TicketClient. The TicketClient is aware of this and calls the ``` IsOwnerAuthenticated() ``` method, and logs you in if needed (you should save the OwnerTokens as well to avoid unneccesary API calls).
 
 The Utilities namespace has a experimental HTMLHelper to encode and decode html strings. 
 
