@@ -30,7 +30,7 @@ var authUrl = await AuthService.GetAuthenticationUrl(AppTokens.Subdomain, AppTok
 //opens Windows Store app Authentication Broker
 var authResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(authUrl), new Uri(AppTokens.CallbackUrl));
 
-//after user has authenticated the app, get the AccessToken and AccessTokenSecret:
+//after user has authenticated the app, get the AccessToken and AccessTokenSecret
 await AuthService.GetAccessToken(AppTokens.Subdomain, AppTokens.ConsumerKey, AppTokens.ConsumerSecret, authUrl, authResult.ResponseData);
 
 This requests fills in the UserTokens.AccessToken and UserTokens.AccessTokenSecret. You just need to save them.
@@ -42,15 +42,3 @@ The usage of the LoginAsOwner() method is quite similiar, except that you don't 
 The Utilities namespace has a experimental HTMLHelper to encode and decode html strings. 
 
 All methods are fully commented, Visual Studio's IntelliSense will tell you all the parameters the methods can take or are required.
-
-
-
-
-
-
-
-
-
-
-
-
