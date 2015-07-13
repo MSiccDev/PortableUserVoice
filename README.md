@@ -2,7 +2,7 @@
 
 PortableUserVoice makes it easy to integrate UserVoice features into your .NET application. It is a portable class library (profile 259), which make it availabe across a variety of project types, including Xamarin.iOS and Xamarin.Android.
 
-There are four main clients:
+There are four clients to integrate into your app:
 - KnowledgeBaseClient
 - SuggestionClient
 - TicketClient
