@@ -42,3 +42,4 @@ The usage of the LoginAsOwner() method is quite similiar, except that you don't 
 The Utilities namespace has a experimental HTMLHelper to encode and decode html strings. 
 
 All methods are fully commented, Visual Studio's IntelliSense will tell you all the parameters the methods can take or are required.
+
