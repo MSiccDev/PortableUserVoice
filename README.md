@@ -46,4 +46,3 @@ The Utilities namespace has a experimental HTMLHelper to encode and decode html 
 
 All methods are fully commented, Visual Studio's IntelliSense will tell you all the parameters the methods can take or are required.
 
-Currently, this library does not work directly in Windows 10 apps. If you can't wait, just download this solution and add it as an additional project to your app. This way, it should work like expected.
