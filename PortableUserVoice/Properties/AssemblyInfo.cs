@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PortableUserVoice")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("PortableUserVoice makes it easy to integrate UserVoice directly into .NET apps for user feedback, support and knowledge base.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("MSiccDev")]
 [assembly: AssemblyProduct("PortableUserVoice")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © MSiccDev  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
